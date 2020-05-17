@@ -1,9 +1,10 @@
 // global dependencies
 const path = require('path');
 const HTMLWebpackPlugin = require("html-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   // DOC: https://webpack.js.org/configuration/output/
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -14,6 +15,14 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 9000
+  },
+
+  resolve: {
+    alias: {
+      "react": "preact-compat",
+      "react-dom": "preact-compat"
+      // there might be a defination for react native, keep it.
+    } 
   },
 
   module: {
@@ -47,6 +56,8 @@ module.exports = {
     new HTMLWebpackPlugin({
       filename: "./index.html",
       template: path.join(__dirname, 'public/index.html')
-    })
+    }),
+    // DOC: https://github.com/webpack-contrib/webpack-bundle-analyzer
+    new BundleAnalyzerPlugin()
   ]
 };
